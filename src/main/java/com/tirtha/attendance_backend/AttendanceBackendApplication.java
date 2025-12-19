@@ -10,4 +10,5 @@ public class AttendanceBackendApplication {
 		SpringApplication.run(AttendanceBackendApplication.class, args);
 	}
 
+
 }
