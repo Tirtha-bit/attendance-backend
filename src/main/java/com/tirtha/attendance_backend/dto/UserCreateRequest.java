@@ -4,46 +4,43 @@ import com.tirtha.attendance_backend.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class UserCreateRequest {
 
-    @Email
-    @NotBlank
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    @NotNull
+    @NotNull(message = "Role is required")
     private Role role;
 
-    // getter for email
     public String getEmail() {
         return email;
     }
 
-    // setter for email
     public void setEmail(String email) {
         this.email = email;
     }
 
-    // getter for password
     public String getPassword() {
         return password;
     }
-
-    // setter for password
+    
     public void setPassword(String password) {
         this.password = password;
     }
 
-    // getter for role
     public Role getRole() {
         return role;
     }
-
-    // setter for role
+    
     public void setRole(Role role) {
         this.role = role;
     }
 }
+
