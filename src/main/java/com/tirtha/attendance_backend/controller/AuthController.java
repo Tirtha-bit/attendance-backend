@@ -1,12 +1,16 @@
 package com.tirtha.attendance_backend.controller;
 
-import com.tirtha.attendance_backend.dto.LoginRequest;
-import com.tirtha.attendance_backend.service.AuthService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import com.tirtha.attendance_backend.dto.LoginRequest;
+import com.tirtha.attendance_backend.dto.LoginResponse;
+import com.tirtha.attendance_backend.service.AuthService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,16 +23,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
-            @Valid @RequestBody LoginRequest request) {
-
-        String token = authService.login(
-                request.getEmail(),
-                request.getPassword()
-        );
-
-        return ResponseEntity.ok(
-                Map.of("token", token)
-        );
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }
