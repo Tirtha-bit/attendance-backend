@@ -15,7 +15,7 @@ import com.tirtha.attendance_backend.security.JwtAuthFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity   // 🔥 THIS WAS MISSING
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
