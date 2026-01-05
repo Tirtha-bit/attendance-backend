@@ -18,41 +18,36 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
+private final JwtUtil jwtUtil;
 
-    public JwtAuthFilter(JwtUtil jwtUtil) {
+public JwtAuthFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-    }
+}
 
-    @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+@Override
+protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        FilterChain filterChain
+) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-            String token = authHeader.substring(7);
+        String token = authHeader.substring(7);
 
-            if (jwtUtil.isTokenValid(token)
-                    && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (jwtUtil.isTokenValid(token)
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 String email = jwtUtil.extractEmail(token);
-
-                // ✅ DAY 8 — EXTRACT ROLE FROM JWT
                 String role = jwtUtil.extractRole(token);
-
-                SimpleGrantedAuthority authority =
-                        new SimpleGrantedAuthority("ROLE_" + role);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 email,
                                 null,
-                                List.of(authority)
+                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
                         );
 
                 authentication.setDetails(
@@ -60,10 +55,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+        }
         }
 
         filterChain.doFilter(request, response);
-    }
 }
+}
+
 
