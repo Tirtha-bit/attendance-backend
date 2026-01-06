@@ -12,6 +12,7 @@ import com.tirtha.attendance_backend.dto.TeacherCreateRequest;
 import com.tirtha.attendance_backend.entity.Teacher;
 import com.tirtha.attendance_backend.service.TeacherService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,6 +25,7 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
+    @Operation(summary = "Create a teacher profile (Admin only)")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Teacher> createTeacher(

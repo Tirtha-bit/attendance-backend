@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tirtha.attendance_backend.entity.User;
 import com.tirtha.attendance_backend.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -23,7 +25,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    // ✅ AUTHENTICATED USER (ANY ROLE)
+    @Operation(summary = "Get current logged-in user details")
     @GetMapping("/me")
     public ResponseEntity<?> currentUser(Authentication authentication) {
         return ResponseEntity.ok(
@@ -31,21 +33,21 @@ public class UserController {
         );
     }
 
-    // 🔒 ADMIN ONLY
+    @Operation(summary = "Get all users (Admin only)")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // 🔒 TEACHER ONLY
+    @Operation(summary = "Teacher-only test endpoint")
     @PreAuthorize("hasRole('TEACHER')")
     @GetMapping("/teacher-only")
     public String teacherEndpoint() {
         return "Teacher access granted";
     }
 
-    // 🔒 STUDENT ONLY
+    @Operation(summary = "Student-only test endpoint")
     @PreAuthorize("hasRole('STUDENT')")
     @GetMapping("/student-only")
     public String studentEndpoint() {

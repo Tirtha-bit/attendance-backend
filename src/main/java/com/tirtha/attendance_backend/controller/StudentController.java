@@ -12,6 +12,7 @@ import com.tirtha.attendance_backend.dto.StudentCreateRequest;
 import com.tirtha.attendance_backend.entity.Student;
 import com.tirtha.attendance_backend.service.StudentService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,6 +25,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @Operation(summary = "Create a student profile (Admin only)")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Student> createStudent(
@@ -34,3 +36,4 @@ public class StudentController {
                 .body(studentService.createStudent(request));
     }
 }
+

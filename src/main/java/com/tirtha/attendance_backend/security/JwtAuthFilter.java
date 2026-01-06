@@ -31,6 +31,16 @@ protected void doFilterInternal(
         FilterChain filterChain
 ) throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // 🔓 Skip JWT validation for public endpoints
+        if (path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/auth")) {
+        filterChain.doFilter(request, response);
+        return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -60,6 +70,7 @@ protected void doFilterInternal(
 
         filterChain.doFilter(request, response);
 }
+
 }
 
 

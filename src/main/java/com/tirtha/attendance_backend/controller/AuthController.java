@@ -10,6 +10,7 @@ import com.tirtha.attendance_backend.dto.LoginRequest;
 import com.tirtha.attendance_backend.dto.LoginResponse;
 import com.tirtha.attendance_backend.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -22,6 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @Operation(summary = "Login and generate JWT token")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest request
@@ -29,3 +31,4 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 }
+
