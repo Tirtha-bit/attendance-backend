@@ -38,7 +38,7 @@ public class Attendance {
     @Column(nullable = false)
     private AttendanceStatus status;
 
-    // 🔽 GETTERS & SETTERS (MANDATORY)
+
 
     public Long getId() {
         return id;

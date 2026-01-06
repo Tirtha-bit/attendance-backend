@@ -13,7 +13,6 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    // ✅ 256-bit secure key (AUTO-GENERATED)
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour

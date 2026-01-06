@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        // ✅ DAY 8 CHANGE — ROLE ADDED TO JWT
+
         String token = jwtUtil.generateToken(
                 user.getEmail(),
                 user.getRole().name()

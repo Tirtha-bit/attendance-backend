@@ -24,17 +24,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/attendance")
 public class AttendanceController {
 
-    private final AttendanceService attendanceService;
+private final AttendanceService attendanceService;
 
-    public AttendanceController(AttendanceService attendanceService) {
+public AttendanceController(AttendanceService attendanceService) {
         this.attendanceService = attendanceService;
-    }
+}
 
-    @Operation(summary = "Mark attendance for a student (Teacher only)")
-    @PreAuthorize("hasRole('TEACHER')")
-    @PostMapping("/mark")
-    public ResponseEntity<AttendanceResponse> markAttendance(
-            @Valid @RequestBody AttendanceMarkRequest request) {
+@Operation(summary = "Mark attendance for a student (Teacher only)")
+@PreAuthorize("hasRole('TEACHER')")
+@PostMapping("/mark")
+public ResponseEntity<AttendanceResponse> markAttendance(
+@Valid @RequestBody AttendanceMarkRequest request) {
 
         Attendance attendance = attendanceService.markAttendance(request);
 
@@ -47,12 +47,12 @@ public class AttendanceController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
-    }
+}
 
-    @Operation(summary = "View attendance records for a student")
-    @PreAuthorize("hasRole('STUDENT')")
-    @GetMapping("/student/{id}")
-    public List<AttendanceResponse> viewAttendance(@PathVariable Long id) {
+@Operation(summary = "View attendance records for a student")
+@PreAuthorize("hasRole('STUDENT')")
+@GetMapping("/student/{id}")
+public List<AttendanceResponse> viewAttendance(@PathVariable Long id) {
 
         return attendanceService.getAttendanceForStudent(id)
                 .stream()
@@ -62,5 +62,5 @@ public class AttendanceController {
                         a.getStatus().name()
                 ))
                 .toList();
-    }
+        }
 }
