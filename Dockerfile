@@ -1,4 +1,4 @@
-# -------- BUILD STAGE --------
+# ---------- BUILD STAGE ----------
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# -------- RUN STAGE --------
+# ---------- RUN STAGE ----------
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 

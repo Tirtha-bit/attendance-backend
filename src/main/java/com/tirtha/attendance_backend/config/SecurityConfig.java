@@ -35,15 +35,17 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
-                
+                // PUBLIC ENDPOINTS
                 .requestMatchers(
+                    "/",
                     "/auth/**",
                     "/swagger-ui/**",
                     "/swagger-ui.html",
-                    "/v3/api-docs/**"
+                    "/v3/api-docs/**",
+                    "/actuator/**"
                 ).permitAll()
 
-                
+                // EVERYTHING ELSE NEEDS JWT
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -56,4 +58,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
 
