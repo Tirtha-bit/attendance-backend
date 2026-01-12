@@ -1,28 +1,34 @@
 package com.tirtha.attendance_backend.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
-@OpenAPIDefinition(
-        info = @Info(
-                title = "Attendance Management API",
-                version = "1.0",
-                description = "JWT secured Attendance Backend"
-        ),
-        security = @SecurityRequirement(name = "bearerAuth")
-)
-@SecurityScheme(
-        name = "bearerAuth",
-        type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
-        bearerFormat = "JWT"
-)
 public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI openAPI() {
+
+        SecurityScheme jwtScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+                .in(SecurityScheme.In.HEADER)
+                .name("Authorization");
+
+        return new OpenAPI()
+                .components(
+                        new Components().addSecuritySchemes("bearerAuth", jwtScheme)
+                )
+                .addSecurityItem(
+                        new SecurityRequirement().addList("bearerAuth")
+                );
+    }
 }
+
 
